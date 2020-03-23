@@ -19,3 +19,13 @@ for file in glob.glob(pathname=os.path.abspath(base_path+'/../data')+'/memes_com
       if i % 5 == 0:
         time.sleep(5)
       
+for file in glob.glob(pathname=os.path.abspath(base_path+'/../data')+'/memes_infections*.log', recursive=False):
+  with open(file) as dfile:
+    rd = csv.reader(dfile, delimiter="\t", quotechar='"')
+    i = 0
+    for row in rd:
+      query = "INSERT INTO memonavirus.infections (timestamp, comment_author, comment_id, infected_by_author, infected_by_id, comment) VALUES('{}', '{}', '{}', '{}', '{}', {})".format(row[0], row[1], row[2], row[3], row[4], "true" if row[5] == "C" else "false")
+      result = bq.query(query).result()
+      i += 1
+      if i % 5 == 0:
+        time.sleep(5)
