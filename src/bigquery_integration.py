@@ -2,10 +2,12 @@
 import glob
 from google.cloud import bigquery
 import csv
+import os
 
 bq = bigquery.Client()
+base_path = os.getcwd()
 
-for file in glob.glob(pathname='/mnt/e/OSS/memonavirus/data/memes_comments*.log', recursive=False):
+for file in glob.glob(pathname=os.path.abspath(base_path+'/../data')+'/memes_comments*.log', recursive=False):
   with open(file) as dfile:
     rd = csv.reader(dfile, delimiter="\t", quotechar='"')
     for row in rd:
