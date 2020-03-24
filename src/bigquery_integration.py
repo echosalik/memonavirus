@@ -29,6 +29,8 @@ def big_query_save():
       i += 1
       if i % 5 == 0:
         time.sleep(5)
+big_query_save()
+
 
 def bigquery_save_comments(timestamp, comment_author, comment_id, parent_author, parent_id, comment, infected):
   query = """INSERT INTO memonavirus.comments (timestamp, comment_author, comment_id, parent_author, parent_id, comment, infected) 
