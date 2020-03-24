@@ -1,12 +1,24 @@
 #!/bin/bash
 for file in ../data/memes_comments*
 do
-  python3 bigquery_integration.py $file
-  sleep 5
+  if grep -Fxq "$file" addedinlist.log
+  then
+    continue
+  else
+    python3 bigquery_integration.py $file
+    echo $file > addedinlist.log
+    sleep 5
+  fi
 done
 
 for file in ../data/memes_infections*
 do
-  python3 bigquery_integration.py $file
-  sleep 5
+  if grep -Fxq "$file" addedinlist.log
+  then
+    continue
+  else
+    python3 bigquery_integration.py $file
+    echo $file > addedinlist.log
+    sleep 5
+  fi
 done
