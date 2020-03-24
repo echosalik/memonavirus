@@ -12,25 +12,31 @@ base_path = os.getcwd()
 
 def big_query_save():
   file_path = sys.argv[1]
+  print("FILE PATH ARG: {}".format(file_path))
   infected = True if file_path.find("infections") != -1 else False
+  print("INFECTIONS: {}".format("Yes" if infected else "No"))
   file = os.path.abspath(base_path+"/"+file_path)
+  print("ABS FILE PATH: {}".format(file))
   with open(file) as dfile:
     rd = csv.reader(dfile, delimiter="\t", quotechar='"')
     i = 0
     for row in rd: 
       query = ""
       if infected:
-        query = """INSERT INTO memonavirus.comments (timestamp, comment_author, comment_id, parent_author, parent_id, comment, infected) 
-        VALUES('{}', '{}', '{}', '{}', '{}', {}, {})""".format(row[0], row[1], row[2], row[3], row[4], "true" if row[5] == "C" else "false", "true" if row[6] == "I" else "false")
-      else:
         query = """INSERT INTO memonavirus.infections (timestamp, comment_author, comment_id, infected_by_author, infected_by_id, comment) 
         VALUES('{}', '{}', '{}', '{}', '{}', {})""".format(row[0], row[1], row[2], row[3], row[4], "true" if row[5] == "C" else "false")
-      bq.query(query).result()
+      else:
+        query = """INSERT INTO memonavirus.comments (timestamp, comment_author, comment_id, parent_author, parent_id, comment, infected) 
+        VALUES('{}', '{}', '{}', '{}', '{}', {}, {})""".format(row[0], row[1], row[2], row[3], row[4], "true" if row[5] == "C" else "false", "true" if row[6] == "I" else "false")
+      try:
+        bq.query(query).result()
+      except Exception as identifier:
+        print("Exception occured: {}".format(identifier))
       i += 1
       if i % 5 == 0:
-        time.sleep(5)
+        print("SLEEPING. ROWS DONE: {}".format(i))
+        time.sleep(2)
 big_query_save()
-
 
 def bigquery_save_comments(timestamp, comment_author, comment_id, parent_author, parent_id, comment, infected):
   query = """INSERT INTO memonavirus.comments (timestamp, comment_author, comment_id, parent_author, parent_id, comment, infected) 
