@@ -33,9 +33,9 @@ def big_query_save():
       except Exception as identifier:
         print("Exception occured: {}".format(identifier))
       i += 1
-      if i % 5 == 0:
+      if i % 100 == 0:
         print("SLEEPING. ROWS DONE: {}".format(i))
-        time.sleep(2)
+        time.sleep(10)
 big_query_save()
 
 def bigquery_save_comments(timestamp, comment_author, comment_id, parent_author, parent_id, comment, infected):

@@ -6,7 +6,7 @@ do
     continue
   else
     python3 bigquery_integration.py $file
-    echo $file > addedinlist.log
+    echo $file >> addedinlist.log
     sleep 5
   fi
 done
@@ -18,7 +18,7 @@ do
     continue
   else
     python3 bigquery_integration.py $file
-    echo $file > addedinlist.log
+    echo $file >> addedinlist.log
     sleep 5
   fi
 done
