@@ -23,11 +23,11 @@ def big_query_save():
     for row in rd: 
       query = ""
       if infected:
-        query = """INSERT INTO memonavirus.infections (timestamp, comment_author, comment_id, infected_by_author, infected_by_id, comment) 
-        VALUES('{}', '{}', '{}', '{}', '{}', {})""".format(row[0], row[1], row[2], row[3], row[4], "true" if row[5] == "C" else "false")
+        query = """INSERT INTO memonavirus.infections (timestamp, comment_author, comment_id, infected_by_author, infected_by_id, comment, added_on) 
+        VALUES('{}', '{}', '{}', '{}', '{}', {}, CURRENT_TIMESTAMP())""".format(row[0], row[1], row[2], row[3], row[4], "true" if row[5] == "C" else "false")
       else:
-        query = """INSERT INTO memonavirus.comments (timestamp, comment_author, comment_id, parent_author, parent_id, comment, infected) 
-        VALUES('{}', '{}', '{}', '{}', '{}', {}, {})""".format(row[0], row[1], row[2], row[3], row[4], "true" if row[5] == "C" else "false", "true" if row[6] == "I" else "false")
+        query = """INSERT INTO memonavirus.comments (timestamp, comment_author, comment_id, parent_author, parent_id, comment, infected. added_on) 
+        VALUES('{}', '{}', '{}', '{}', '{}', {}, {}, CURRENT_TIMESTAMP())""".format(row[0], row[1], row[2], row[3], row[4], "true" if row[5] == "C" else "false", "true" if row[6] == "I" else "false")
       try:
         bq.query(query).result()
       except Exception as identifier:
@@ -39,11 +39,11 @@ def big_query_save():
 big_query_save()
 
 def bigquery_save_comments(timestamp, comment_author, comment_id, parent_author, parent_id, comment, infected):
-  query = """INSERT INTO memonavirus.comments (timestamp, comment_author, comment_id, parent_author, parent_id, comment, infected) 
-    VALUES('{}', '{}', '{}', '{}', '{}', {}, {})""".format(timestamp, comment_author, comment_id, parent_author, parent_id, "true" if comment == "C" else "false", "true" if infected == "I" else "false")
+  query = """INSERT INTO memonavirus.comments (timestamp, comment_author, comment_id, parent_author, parent_id, comment, infected, added_on) 
+    VALUES('{}', '{}', '{}', '{}', '{}', {}, {}, CURRENT_TIMESTAMP())""".format(timestamp, comment_author, comment_id, parent_author, parent_id, "true" if comment == "C" else "false", "true" if infected == "I" else "false")
   bq.query(query).result()
 
 def bigquery_save_infected(timestamp, comment_author, comment_id, infected_by_author, infected_by_id, comment):
-  query = """INSERT INTO memonavirus.infections (timestamp, comment_author, comment_id, infected_by_author, infected_by_id, comment) 
-  VALUES('{}', '{}', '{}', '{}', '{}', {})""".format(timestamp, comment_author, comment_id, infected_by_author, infected_by_id, "true" if comment == "C" else "false")
+  query = """INSERT INTO memonavirus.infections (timestamp, comment_author, comment_id, infected_by_author, infected_by_id, comment, added_on) 
+  VALUES('{}', '{}', '{}', '{}', '{}', {}, CURRENT_TIMESTAMP())""".format(timestamp, comment_author, comment_id, infected_by_author, infected_by_id, "true" if comment == "C" else "false")
   bq.query(query).result()
