@@ -26,7 +26,7 @@ def big_query_save():
         query = """INSERT INTO memonavirus.infections (timestamp, comment_author, comment_id, infected_by_author, infected_by_id, comment, added_on) 
         VALUES('{}', '{}', '{}', '{}', '{}', {}, CURRENT_TIMESTAMP())""".format(row[0], row[1], row[2], row[3], row[4], "true" if row[5] == "C" else "false")
       else:
-        query = """INSERT INTO memonavirus.comments (timestamp, comment_author, comment_id, parent_author, parent_id, comment, infected. added_on) 
+        query = """INSERT INTO memonavirus.comments (timestamp, comment_author, comment_id, parent_author, parent_id, comment, infected, added_on) 
         VALUES('{}', '{}', '{}', '{}', '{}', {}, {}, CURRENT_TIMESTAMP())""".format(row[0], row[1], row[2], row[3], row[4], "true" if row[5] == "C" else "false", "true" if row[6] == "I" else "false")
       try:
         bq.query(query).result()
